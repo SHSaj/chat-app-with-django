@@ -1,0 +1,154 @@
+
+
+body{
+    background-color: #1a0f3a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 380;
+    padding: 0;
+    margin: 0;
+}
+.center-rectangle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.rectangle {
+  width: 400px;
+  height: 500px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 20px;
+}
+
+.chat-body{
+  background-color: rgb(253, 253, 253);
+}
+.friend-username {
+  color: #282a9c;
+  text-decoration: none;
+}
+.friend-username:hover{
+  text-decoration: none;
+}
+
+.chat-history{
+  overflow-y: scroll;
+}
+.chat-history::-webkit-scrollbar {
+  display: none;
+}
+.chat-history{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chat-list{
+  overflow-y: scroll;
+}
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
+.chat-list{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+
+.card-body{
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: larger;
+}
+
+/* chat page */
+
+
+.message {
+  padding: 8px;
+  margin: 4px;
+  border-radius: 8px;
+  max-width: 70%;
+  font-size: small;
+  font-weight: 600;
+}
+.sent {
+  background-color: #1a0f3a;
+  color: white;
+  align-self: flex-end;
+}
+.received {
+  background-color: #f0f0f0;
+  align-self: flex-start;
+}
+
+/* Register and Login */
+ 
+.card-signin {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+}
+.form-signin input[type="email"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="text"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* me */
+
+
+
+.chat-content {
+  overflow-y: scroll;
+}
+
+.message {
+  padding: 8px;
+  margin: 4px;
+  border-radius: 8px;
+  max-width: 70%;
+}
+.sent {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-end;
+}
+.received {
+  background-color: #f0f0f0;
+  align-self: flex-start;
+}
+
+.field-heading{
+  color: #007bff;
+}
+
+.form{
+  border: 1px solid slateblue;
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px 10px;
+  font-size: 18px;
+}
+
+#id_body {
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  resize: none;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: hidden; /* Hide vertical scrollbar */
+}

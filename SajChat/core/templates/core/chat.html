@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+
+{% block header %}
+<div class="header d-flex justify-content-between p-3 align-items-center border-bottom shadow-sm">
+    <a class="friend-username" style="font-size: larger; font-weight: bold;"
+        href="{% url 'account:view' friend.profile.id %}">{{friend.profile.username}}</a>
+    <a class="btn btn-outline-primary" href="{% url 'home' %}" style="border-radius: 100%;">X</a>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="card chat-box h-100" id="chatBox">
+            <div class="card-body d-flex flex-column chat-history" id="chat-body" style="height: 330px;">
+                {% for chat in chats %}
+                {% if chat.msg_sender == user %}
+                <div class="message sent">
+                    {{chat}}
+                </div>
+                {% else %}
+                <div class="message received">
+                    {{chat}}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<form action="" id="myform" method="POST">
+    {% csrf_token %}
+    <div class="row my-2" style="padding: 0 15px 0 15px;">
+        <div class="col-9" style="padding: 0;">
+            {{ form.body }}
+        </div>
+        <div class="col-3" style="padding: 0;">
+            <button class="btn btn-primary btn-block" style="margin: 0;" type="submit" id="submit">Send</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    let form = document.getElementById("myform")
+
+    form.addEventListener("submit", sendChat)
+
+    function sendChat(e) {
+        e.preventDefault()
+        let chatMessage = document.getElementById("id_body").value
+        const data = { msg: chatMessage };
+
+        async function postJSON(data) {
+            try {
+
+                let url = "{% url 'sent_msg' friend.profile.id %}"
+
+                const response = await fetch(url, {
+                    method: "POST", // or 'PUT'
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify(data),
+                });
+                const result = await response.json();
+                var chatBody = document.getElementById('chat-body');
+                var messageDiv = document.createElement('div');
+                messageDiv.className = 'message sent';
+                messageDiv.textContent = result;
+                chatBody.appendChild(messageDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+                document.getElementById("id_body").value = ""
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+
+        postJSON(data);
+    }
+
+    setInterval(receiveMessages, 3000)
+
+    let counter = "{{ count }}"
+
+    function receiveMessages() {
+
+        let url = "{% url 'rec_msg' friend.profile.id %}"
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let lastMsg = "Nothing New"
+                if (data.length == 0) { }
+                else {
+                    let lastMsg = data[data.length - 1]
+                    if (counter == data.length) { }
+                    else {
+                        var chatBody = document.getElementById('chat-body');
+                        var messageDiv = document.createElement('div');
+                        messageDiv.className = 'message received';
+                        messageDiv.textContent = lastMsg;
+                        chatBody.appendChild(messageDiv);
+                        chatBody.scrollTop = chatBody.scrollHeight;
+                    }
+                }
+
+                counter = data.length
+
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    window.onload = function() {
+        var chatBody = document.getElementById('chat-body');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+
+</script>
+
+{% endblock content %}

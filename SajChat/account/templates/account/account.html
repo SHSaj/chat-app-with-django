@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block header %}
+<div class="header d-flex justify-content-between p-3 align-items-center border-bottom shadow-sm">
+	<a class="friend-username" style="font-size: larger; font-weight: bold;">{{username}}</a>
+	<a class="btn btn-outline-primary" href="{% url 'home' %}" style="border-radius: 100%;">X</a>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<div class="container-fluid mt-3">
+	<div class="d-flex flex-row justify-content-center flex-wrap align-items-start">
+		<div class="card profile-card m-2">
+			<div class="card-body">
+				<div class="d-flex flex-column justify-content-center p-4">
+					<p class="mt-4 mb-1 field-heading">Email</p>
+					{% if is_self %}
+					<h5>{{email}}</h5>
+					{% else %}
+					{% if hide_email %}
+					<h5>**********</h5>
+					{% else %}
+					<h5>{{email}}</h5>
+					{% endif %}
+					{% endif %}
+					<p class="mt-4 mb-1 field-heading">Username</p>
+					<h5>{{username}}</h5>
+
+					{% if is_self %}
+					<a class="mt-4 btn btn-primary" href="{% url 'account:edit' user_id=id %}">Update</a>
+					{% else %}
+					<a class="mt-4 btn btn-primary" href="{% url 'chat' pk=id %}">Start Chat</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
